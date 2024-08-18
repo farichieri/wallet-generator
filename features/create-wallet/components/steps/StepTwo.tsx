@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import MnemonicPhrase from './MnemonicPhrase';
+import MnemonicPhrase from '../MnemonicPhrase';
 
 interface Props {
   onNext: () => void;

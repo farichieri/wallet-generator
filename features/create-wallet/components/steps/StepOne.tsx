@@ -5,12 +5,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { signUp } from '@/features/auth';
 import { handleSubmissionError } from '@/lib/utils';
-
-import { Button } from '../../../components/ui/button';
-import { signUp } from '../actions';
 
 const createPasswordSchema = z
   .object({
@@ -53,8 +52,7 @@ const StepOne: React.FC<Props> = ({ onNext }) => {
 
   const onSubmit = async (values: z.infer<typeof createPasswordSchema>) => {
     try {
-      const hashedPassword = await signUp(values.password);
-      localStorage.setItem('password', hashedPassword);
+      await signUp(values.password);
       onNext();
     } catch (error) {
       handleSubmissionError(error, 'Error creating password');

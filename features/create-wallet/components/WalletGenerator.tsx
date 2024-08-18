@@ -1,25 +1,19 @@
 'use client';
 
-import { generateMnemonic } from 'bip39';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import React from 'react';
 
-import StepOne from './StepOne';
-import { Steps } from './Steps';
-import StepThree from './StepThree';
-import StepTwo from './StepTwo';
+import { Icons } from '@/components/Icons';
+
+import { StepOne, StepThree, StepTwo, Steps } from './steps';
+import WalletConfirmation from './WalletConfirmation';
+import { useWalletGenerate } from '../hooks';
 
 interface Props {}
 
 const WalletGenerator: React.FC<Props> = () => {
-  const [step, setStep] = useState(2);
-  const [mnemonic, setMnemonic] = useState('');
-
-  const mnemonicArray = mnemonic?.split(' ');
-
-  useEffect(() => {
-    const mnemonic = generateMnemonic();
-    setMnemonic(mnemonic);
-  }, []);
+  const { handleConfirm, isConfirmed, mnemonic, mnemonicArray, setStep, step } =
+    useWalletGenerate();
 
   const stepsConfig = [
     {
@@ -30,24 +24,50 @@ const WalletGenerator: React.FC<Props> = () => {
       title: 'Secure Wallet',
       content: (
         <StepTwo
-          onNext={() => setStep(3)}
-          mnemonicArray={mnemonicArray}
           mnemonic={mnemonic}
+          mnemonicArray={mnemonicArray}
+          onNext={() => setStep(3)}
         />
       ),
     },
     {
       title: 'Confirm secret recovery key',
       content: (
-        <StepThree onNext={() => setStep(3)} mnemonicArray={mnemonicArray} />
+        <StepThree
+          mnemonicArray={mnemonicArray}
+          onConfirmWalletCreation={handleConfirm}
+        />
       ),
     },
   ];
 
   return (
-    <section className="mx-auto flex w-full max-w-lg flex-col overflow-auto rounded-3xl border">
-      <Steps steps={stepsConfig.map(({ title }) => ({ title }))} step={step} />
-      <div className="p-10">{stepsConfig[step - 1]?.content}</div>
+    <section className="relative">
+      <div className="mx-auto flex w-full max-w-lg flex-col overflow-auto rounded-3xl border">
+        {isConfirmed ? (
+          <div className="p-10">
+            <WalletConfirmation />
+          </div>
+        ) : (
+          <>
+            <Steps
+              step={step}
+              steps={stepsConfig.map(({ title }) => ({ title }))}
+            />
+            <div className="p-10">{stepsConfig[step - 1]?.content}</div>
+          </>
+        )}
+      </div>
+
+      {isConfirmed && (
+        <Link
+          className="link absolute bottom-[-35px] left-1/2 flex translate-x-[-50%] items-center gap-1"
+          href={'https://x.com/farichieri'}
+          target="_blank"
+        >
+          Follow me on Twitter <Icons.x />
+        </Link>
+      )}
     </section>
   );
 };

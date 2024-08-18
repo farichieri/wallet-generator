@@ -15,13 +15,15 @@ const mnemonicFormSchema = z.object({
 });
 
 interface Props {
-  mnemonicArray: string[];
   isConfirmation?: boolean;
+  mnemonicArray: string[];
+  onConfirmWalletCreation?: () => void;
 }
 
 const MnemonicPhraseForm: React.FC<Props> = ({
-  mnemonicArray,
   isConfirmation,
+  mnemonicArray,
+  onConfirmWalletCreation,
 }) => {
   const mnemonicArrayCopy = [...mnemonicArray];
 
@@ -49,17 +51,22 @@ const MnemonicPhraseForm: React.FC<Props> = ({
 
   const onSubmit = async (values: z.infer<typeof mnemonicFormSchema>) => {
     try {
+      if (!onConfirmWalletCreation) {
+        throw new Error('Something went wrong');
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       if (JSON.stringify(values.mnemonic) !== JSON.stringify(mnemonicArray)) {
         setError('mnemonic', { message: 'Mnemonic phrase does not match' });
         throw new Error('Mnemonic phrase does not match');
       }
       toast.success('Mnemonic confirmed');
+      onConfirmWalletCreation();
     } catch (error) {
       handleSubmissionError(error, 'Failed to confirm mnemonic');
     }
   };
-
-  console.log({ errors });
 
   const areAllWordsFilled = watch('mnemonic').every((word) => word);
 
