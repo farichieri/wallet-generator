@@ -21,6 +21,7 @@ const buttonVariants = cva(
           'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
+        ghostLink: 'hover:bg-accent text-primary',
       },
       size: {
         default: 'h-9 px-4 py-2',
@@ -41,7 +42,6 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isLoading?: boolean;
-  isDisabled?: boolean;
   loadingMessage?: string;
 }
 
@@ -52,7 +52,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant,
       isLoading,
       loadingMessage,
-      isDisabled,
       size,
       asChild = false,
       ...props
@@ -66,7 +65,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'flex items-center gap-2': isLoading,
         })}
         ref={ref}
-        disabled={isDisabled || isLoading}
+        disabled={props.disabled || isLoading}
         {...props}
       >
         {isLoading ? (

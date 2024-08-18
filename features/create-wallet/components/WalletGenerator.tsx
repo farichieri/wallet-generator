@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import { generateMnemonic } from 'bip39';
+import React, { useEffect, useState } from 'react';
 
 import StepOne from './StepOne';
 import { Steps } from './Steps';
@@ -10,7 +11,15 @@ import StepTwo from './StepTwo';
 interface Props {}
 
 const WalletGenerator: React.FC<Props> = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
+  const [mnemonic, setMnemonic] = useState('');
+
+  const mnemonicArray = mnemonic?.split(' ');
+
+  useEffect(() => {
+    const mnemonic = generateMnemonic();
+    setMnemonic(mnemonic);
+  }, []);
 
   const stepsConfig = [
     {
@@ -19,11 +28,19 @@ const WalletGenerator: React.FC<Props> = () => {
     },
     {
       title: 'Secure Wallet',
-      content: <StepTwo onNext={() => setStep(3)} />,
+      content: (
+        <StepTwo
+          onNext={() => setStep(3)}
+          mnemonicArray={mnemonicArray}
+          mnemonic={mnemonic}
+        />
+      ),
     },
     {
       title: 'Confirm secret recovery key',
-      content: <StepThree onNext={() => setStep(3)} />,
+      content: (
+        <StepThree onNext={() => setStep(3)} mnemonicArray={mnemonicArray} />
+      ),
     },
   ];
 

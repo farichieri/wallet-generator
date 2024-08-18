@@ -9,13 +9,13 @@ interface Props {
 
 export const Steps = ({ steps, step }: Props) => {
   return (
-    <div className='flex h-24 w-full items-center justify-center bg-muted/40 backdrop-blur-sm'>
-      <div className='grid grid-cols-3 max-w-sm'>
+    <div className="flex h-24 w-full items-center justify-center bg-muted/40 backdrop-blur-sm">
+      <div className="grid max-w-sm grid-cols-3">
         {steps.map((s, i) => (
-          <div key={i} className='flex flex-col text-center items-center gap-2'>
+          <div key={i} className="flex flex-col items-center gap-2 text-center">
             <div
               key={i}
-              className='flex flex-col text-center items-center gap-2'
+              className="flex flex-col items-center gap-2 text-center"
             >
               <div
                 className={cn(
@@ -23,7 +23,7 @@ export const Steps = ({ steps, step }: Props) => {
                   {
                     'bg-primary text-primary-foreground': i + 1 <= step,
                     'bg-muted-foreground/50 text-foreground': i + 1 > step,
-                  }
+                  },
                 )}
               >
                 {i + 1}
