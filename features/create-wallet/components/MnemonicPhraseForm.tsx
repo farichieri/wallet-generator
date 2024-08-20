@@ -1,18 +1,11 @@
 'use client';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { handleSubmissionError } from '@/lib/utils';
 
-const mnemonicFormSchema = z.object({
-  mnemonic: z.array(z.string()),
-});
+import { useMnemonicForm } from '../hooks/useMnemonicForm';
 
 interface Props {
   isConfirmation?: boolean;
@@ -25,50 +18,19 @@ const MnemonicPhraseForm: React.FC<Props> = ({
   mnemonicArray,
   onConfirmWalletCreation,
 }) => {
-  const mnemonicArrayCopy = [...mnemonicArray];
-
-  for (let i = 0; i < 3; i++) {
-    const randomIndex = Math.floor(Math.random() * mnemonicArrayCopy.length);
-
-    mnemonicArrayCopy[randomIndex] = '';
-  }
-
-  const form = useForm({
-    resolver: zodResolver(mnemonicFormSchema),
-    mode: 'onChange',
-    defaultValues: {
-      mnemonic: isConfirmation ? mnemonicArrayCopy : mnemonicArray,
-    },
-  });
-
   const {
+    areAllWordsFilled,
+    errors,
     handleSubmit,
+    isSubmitting,
     register,
+    onSubmit,
     watch,
-    setError,
-    formState: { isSubmitting, errors },
-  } = form;
-
-  const onSubmit = async (values: z.infer<typeof mnemonicFormSchema>) => {
-    try {
-      if (!onConfirmWalletCreation) {
-        throw new Error('Something went wrong');
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      if (JSON.stringify(values.mnemonic) !== JSON.stringify(mnemonicArray)) {
-        setError('mnemonic', { message: 'Mnemonic phrase does not match' });
-        throw new Error('Mnemonic phrase does not match');
-      }
-      toast.success('Mnemonic confirmed');
-      onConfirmWalletCreation();
-    } catch (error) {
-      handleSubmissionError(error, 'Failed to confirm mnemonic');
-    }
-  };
-
-  const areAllWordsFilled = watch('mnemonic').every((word) => word);
+  } = useMnemonicForm({
+    mnemonicArray,
+    onConfirmWalletCreation,
+    isConfirmation,
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +67,8 @@ const MnemonicPhraseForm: React.FC<Props> = ({
           className="mt-4 flex w-full"
           size="lg"
           type="submit"
-          disabled={!areAllWordsFilled || isSubmitting}
+          disabled={!areAllWordsFilled}
+          isLoading={isSubmitting}
         >
           Confirm
         </Button>

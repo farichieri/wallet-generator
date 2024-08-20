@@ -35,7 +35,7 @@ const Steps = ({ steps, step }: Props) => {
                 className={cn(
                   'absolute top-2.5 w-full translate-y-[-50%] border-t border-muted',
                   {
-                    'border-primary': i + 1 < step,
+                    'border-primary': i + 1 <= step && step !== 1,
                     '': i + 1 > step,
                     'left-1/2': i !== steps.length - 1,
                     'right-1/2': i === steps.length - 1,

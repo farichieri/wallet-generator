@@ -1,6 +1,6 @@
 'use client';
 
-import { generateMnemonic } from 'bip39';
+import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -15,6 +15,9 @@ export const useWalletGenerate = () => {
 
   useEffect(() => {
     const mnemonic = generateMnemonic();
+    const seed = mnemonicToSeedSync(mnemonic);
+    const seedHex = seed.toString('hex');
+    console.log({ seed: seedHex, mnemonic });
     setMnemonic(mnemonic);
   }, []);
 

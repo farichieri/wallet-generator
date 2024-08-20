@@ -17,8 +17,9 @@ interface Props {
 export default async function DashboardLayout({ children }: Props) {
   const session = await getSession();
 
-  if (!session) {
+  if (!session?.address || !session?.hashedPassword) {
     redirect('/');
   }
+
   return <>{children}</>;
 }
