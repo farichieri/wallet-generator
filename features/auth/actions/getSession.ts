@@ -6,12 +6,14 @@ import { handleError } from '@/lib/utils';
 
 export async function getSession() {
   try {
-    const hashedPassword = cookies().has('hashedPassword');
-    const address = cookies().get('address');
+    const encryptedSeedAndDerivationPaths = cookies().get(
+      'encryptedSeedAndDerivationPaths',
+    )?.value;
+    const salt = cookies().get('salt')?.value;
 
     return {
-      hashedPassword,
-      address,
+      encryptedSeedAndDerivationPaths,
+      salt,
     };
   } catch (error) {
     handleError(error, 'Error getting session');

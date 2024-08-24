@@ -4,8 +4,6 @@ import { z } from 'zod';
 
 import { handleSubmissionError } from '@/lib/utils';
 
-import { createEthersWallet } from '../actions';
-
 const mnemonicFormSchema = z.object({
   mnemonic: z.array(z.string()),
 });
@@ -13,12 +11,14 @@ const mnemonicFormSchema = z.object({
 interface Props {
   mnemonicArray: string[];
   onConfirmWalletCreation?: () => void;
+  onConfirmWalletImport?: ({ mnemonic }: { mnemonic: string }) => void;
   isConfirmation?: boolean;
 }
 
 export const useMnemonicForm = ({
   mnemonicArray,
   onConfirmWalletCreation,
+  onConfirmWalletImport,
   isConfirmation,
 }: Props) => {
   const mnemonicArrayCopy = [...mnemonicArray];
@@ -42,31 +42,48 @@ export const useMnemonicForm = ({
     register,
     watch,
     setError,
+    setValue,
     formState: { isSubmitting, errors },
   } = form;
 
   const onSubmit = async (values: z.infer<typeof mnemonicFormSchema>) => {
     try {
-      if (!onConfirmWalletCreation) {
-        throw new Error('Something went wrong');
-      }
-
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      if (JSON.stringify(values.mnemonic) !== JSON.stringify(mnemonicArray)) {
+      if (
+        isConfirmation &&
+        JSON.stringify(values.mnemonic) !== JSON.stringify(mnemonicArray)
+      ) {
         setError('mnemonic', { message: 'Mnemonic phrase does not match' });
         throw new Error('Mnemonic phrase does not match');
       }
 
-      await createEthersWallet({ mnemonic: values.mnemonic.join(' ') });
+      if (!onConfirmWalletCreation && !onConfirmWalletImport) {
+        throw new Error('Something went wrong');
+      }
 
-      onConfirmWalletCreation();
+      onConfirmWalletCreation && onConfirmWalletCreation();
+      onConfirmWalletImport &&
+        onConfirmWalletImport({ mnemonic: values.mnemonic.join(' ') });
     } catch (error) {
       handleSubmissionError(error, 'Failed to confirm mnemonic');
     }
   };
 
   const areAllWordsFilled = watch('mnemonic').every((word) => word);
+
+  const handlePaste = (event: React.ClipboardEvent<HTMLFormElement>) => {
+    const pastedText = event.clipboardData.getData('text');
+    const words = pastedText.trim().split(/\s+/);
+
+    if (words.length === mnemonicArray.length) {
+      event.preventDefault();
+
+      words.forEach((word, index) => {
+        setValue(`mnemonic.${index}`, word);
+      });
+    }
+  };
 
   return {
     areAllWordsFilled,
@@ -78,5 +95,6 @@ export const useMnemonicForm = ({
     register,
     onSubmit,
     watch,
+    handlePaste,
   };
 };

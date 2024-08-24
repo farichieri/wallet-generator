@@ -19,9 +19,9 @@ const WalletConfirmation: React.FC<Props> = () => {
       </p>
       <p className="text-center">Remember:</p>
       <ul className="space-y-1 pl-4">
-        <li>WalletGenerator can't recover your Secret Recovery Phrase.</li>
+        <li>Typen Wallet can't recover your Secret Recovery Phrase.</li>
         <li>
-          WalletGenerator will never ask you for your Secret Recovery Phrase.
+          Typen Wallet will never ask you for your Secret Recovery Phrase.
         </li>
         <li>
           Never share your Secret Recovery Phrase with anyone or risk your funds

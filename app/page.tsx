@@ -9,7 +9,7 @@ export const revalidate = 0;
 export default async function Home() {
   const session = await getSession();
 
-  if (session?.address) {
+  if (session?.encryptedSeedAndDerivationPaths) {
     redirect('/dashboard');
   }
 
@@ -19,8 +19,15 @@ export default async function Home() {
         <h1 className="mb-2 text-center text-3xl font-bold">
           Welcome to Typen
         </h1>
-        <Link className="flex" href="/create-wallet">
-          <Button size="lg">Create Wallet</Button>
+        <Link className="flex w-full" href="/create-wallet">
+          <Button className="w-full" size="lg">
+            Create Wallet
+          </Button>
+        </Link>
+        <Link className="flex w-full" href="/import-wallet">
+          <Button className="w-full" variant="outline" size="lg">
+            Import Wallet
+          </Button>
         </Link>
       </div>
     </div>

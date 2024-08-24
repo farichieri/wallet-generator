@@ -4,21 +4,29 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Icons } from '@/components/Icons';
+import Steps from '@/components/Steps';
 
-import { StepOne, StepThree, StepTwo, Steps } from './steps';
+import { StepOne, StepThree, StepTwo } from './steps';
 import WalletConfirmation from './WalletConfirmation';
 import { useWalletGenerate } from '../hooks';
 
 interface Props {}
 
 const WalletGenerator: React.FC<Props> = () => {
-  const { handleConfirm, isConfirmed, mnemonic, mnemonicArray, setStep, step } =
-    useWalletGenerate();
+  const {
+    handleConfirm,
+    isConfirmed,
+    mnemonic,
+    mnemonicArray,
+    setStep,
+    step,
+    setPassword,
+  } = useWalletGenerate();
 
   const stepsConfig = [
     {
       title: 'Create Password',
-      content: <StepOne onNext={() => setStep(2)} />,
+      content: <StepOne onNext={() => setStep(2)} setPassword={setPassword} />,
     },
     {
       title: 'Secure Wallet',

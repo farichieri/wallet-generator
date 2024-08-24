@@ -9,14 +9,18 @@ import { useMnemonicForm } from '../hooks/useMnemonicForm';
 
 interface Props {
   isConfirmation?: boolean;
+  isImport?: boolean;
   mnemonicArray: string[];
   onConfirmWalletCreation?: () => void;
+  onConfirmWalletImport?: ({ mnemonic }: { mnemonic: string }) => void;
 }
 
 const MnemonicPhraseForm: React.FC<Props> = ({
   isConfirmation,
+  isImport,
   mnemonicArray,
   onConfirmWalletCreation,
+  onConfirmWalletImport,
 }) => {
   const {
     areAllWordsFilled,
@@ -26,25 +30,34 @@ const MnemonicPhraseForm: React.FC<Props> = ({
     register,
     onSubmit,
     watch,
+    handlePaste,
   } = useMnemonicForm({
     mnemonicArray,
     onConfirmWalletCreation,
+    onConfirmWalletImport,
     isConfirmation,
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative grid grid-cols-3 gap-2 rounded-xl bg-foreground p-8 text-background">
+    <form onSubmit={handleSubmit(onSubmit)} onPaste={handlePaste}>
+      <div className="relative grid grid-cols-3 gap-2 rounded-xl bg-muted p-8 text-background">
         {mnemonicArray.map((word, index) => (
           <div
             key={index}
-            className="flex items-center justify-between gap-1 text-left"
+            className="flex items-center justify-between gap-1 text-left text-foreground"
           >
             <span className="w-7 text-sm">{index + 1}.</span>
             <Input
               className="w-full rounded-md border border-muted-foreground/50 px-1 text-center"
+              autoComplete="off"
+              autoCorrect="off"
+              autoSave="off"
+              autoFocus={index === 0}
+              autoCapitalize="off"
               value={
-                isConfirmation ? watch(`mnemonic.${index}` as const) : word
+                isConfirmation || isImport
+                  ? watch(`mnemonic.${index}` as const)
+                  : word
               }
               required
               {...register(`mnemonic.${index}` as const)}
@@ -62,13 +75,25 @@ const MnemonicPhraseForm: React.FC<Props> = ({
         )}
       />
 
+      {isImport && (
+        <Button
+          className="mx-auto mt-4 flex px-10"
+          disabled={!areAllWordsFilled}
+          isLoading={isSubmitting}
+          size="lg"
+          type="submit"
+        >
+          Import
+        </Button>
+      )}
+
       {isConfirmation && (
         <Button
           className="mt-4 flex w-full"
-          size="lg"
-          type="submit"
           disabled={!areAllWordsFilled}
           isLoading={isSubmitting}
+          size="lg"
+          type="submit"
         >
           Confirm
         </Button>

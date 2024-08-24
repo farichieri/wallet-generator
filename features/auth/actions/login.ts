@@ -12,9 +12,9 @@ export async function login(password: string) {
     // 2 seconds promise
     await delay(2000);
 
-    const hashedPassword = cookies().get('hashedPassword');
+    const encryptedSeedAndDerivationPaths = cookies().get('encryptedSeedAndDerivationPaths');
 
-    return bcrypt.compare(password, hashedPassword);
+    return bcrypt.compare(password, encryptedSeedAndDerivationPaths);
   } catch (error) {
     handleError(error, 'Error logging in');
   }

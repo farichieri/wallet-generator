@@ -1,1 +1,1 @@
-export * from './createEthersWallet';
+export * from './createEthereumWallet';

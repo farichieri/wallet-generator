@@ -1,3 +1,4 @@
+import CreatePasswordForm from './CreatePasswordForm';
 import SignOutButton from './SignOutButton';
 
-export { SignOutButton };
+export { SignOutButton, CreatePasswordForm };

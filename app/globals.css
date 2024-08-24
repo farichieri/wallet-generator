@@ -91,6 +91,10 @@
   .link {
     @apply text-blue-500 text-sm tracking-tight hover:underline duration-100 underline-offset-2;
   }
+
+  .heading {
+    @apply text-5xl font-bold;
+  }
 }
 
 html {

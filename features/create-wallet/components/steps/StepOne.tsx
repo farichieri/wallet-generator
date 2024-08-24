@@ -8,7 +8,6 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { signUp } from '@/features/auth';
 import { handleSubmissionError } from '@/lib/utils';
 
 const createPasswordSchema = z
@@ -30,9 +29,10 @@ const createPasswordSchema = z
 
 interface Props {
   onNext: () => void;
+  setPassword: (password: string) => void;
 }
 
-const StepOne: React.FC<Props> = ({ onNext }) => {
+const StepOne: React.FC<Props> = ({ onNext, setPassword }) => {
   const form = useForm({
     resolver: zodResolver(createPasswordSchema),
     mode: 'onChange',
@@ -52,7 +52,7 @@ const StepOne: React.FC<Props> = ({ onNext }) => {
 
   const onSubmit = async (values: z.infer<typeof createPasswordSchema>) => {
     try {
-      await signUp(values.password);
+      setPassword(values.password);
       onNext();
     } catch (error) {
       handleSubmissionError(error, 'Error creating password');
@@ -69,7 +69,7 @@ const StepOne: React.FC<Props> = ({ onNext }) => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 pt-4"
+        className="flex w-full max-w-xs flex-col gap-4 pt-4"
       >
         <Input
           type="password"
@@ -88,7 +88,7 @@ const StepOne: React.FC<Props> = ({ onNext }) => {
         <div className="flex items-center space-x-2">
           <Checkbox
             id="terms"
-            label="I have saved my secret recovery key"
+            label="I have saved my password"
             errors={errors}
             {...register('terms')}
             onCheckedChange={(value) =>

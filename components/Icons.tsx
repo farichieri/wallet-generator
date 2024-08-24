@@ -177,4 +177,91 @@ export const Icons = {
       ></path>
     </svg>
   ),
+  ethereum: ({ ...props }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path fill="#8FFCF3" d="M12 2v7.39l6.25 2.795z" />
+      <path fill="#CABCF8" d="M12 2 5.75 12.185 12 9.39z" />
+      <path fill="#CBA7F5" d="M12 16.975V22l6.25-8.65z" />
+      <path fill="#74A0F3" d="M12 22v-5.025L5.75 13.35z" />
+      <path fill="#CBA7F5" d="m12 15.81 6.25-3.625L12 9.39z" />
+      <path fill="#74A0F3" d="M5.75 12.185 12 15.81V9.39z" />
+      <path
+        fill="#202699"
+        fill-rule="evenodd"
+        d="m12 15.81-6.25-3.625L12 2l6.25 10.185zm-5.835-3.92L11.9 2.545V9.34zm-.085.255L11.9 9.56v5.96zM12.1 9.56v5.96l5.815-3.375zm0-.22 5.735 2.55L12.1 2.545z"
+        clip-rule="evenodd"
+      />
+      <path
+        fill="#202699"
+        fill-rule="evenodd"
+        d="m12 16.895-6.25-3.55L12 22l6.25-8.655zM6.45 13.97l5.45 3.1v4.45zm5.65 3.1v4.45l5.45-7.55z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  ),
+  solana: ({ ...props }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="url(#SOL__a)"
+        d="M19.125 7.447a.7.7 0 0 1-.456.181H2.644c-.568 0-.856-.65-.462-1.03L4.813 4.06a.67.67 0 0 1 .456-.188h16.087c.575 0 .857.656.457 1.038z"
+      />
+      <path
+        fill="url(#SOL__b)"
+        d="M19.125 19.953a.68.68 0 0 1-.456.175H2.644c-.568 0-.856-.644-.462-1.025l2.631-2.544a.66.66 0 0 1 .456-.181h16.087c.575 0 .857.65.457 1.031z"
+      />
+      <path
+        fill="url(#SOL__c)"
+        d="M19.125 10.303a.68.68 0 0 0-.456-.175H2.644c-.568 0-.856.644-.462 1.025l2.631 2.544a.7.7 0 0 0 .456.181h16.087c.575 0 .857-.65.457-1.031z"
+      />
+      <defs>
+        <linearGradient
+          id="SOL__a"
+          x1="2.001"
+          x2="22.479"
+          y1="16.801"
+          y2="15.989"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#599DB0" />
+          <stop offset="1" stop-color="#47F8C3" />
+        </linearGradient>
+        <linearGradient
+          id="SOL__b"
+          x1="2.001"
+          x2="22.359"
+          y1="17.527"
+          y2="16.852"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#C44FE2" />
+          <stop offset="1" stop-color="#73B0D0" />
+        </linearGradient>
+        <linearGradient
+          id="SOL__c"
+          x1="3.151"
+          x2="21.225"
+          y1="12.003"
+          y2="12.003"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#778CBF" />
+          <stop offset="1" stop-color="#5DCDC9" />
+        </linearGradient>
+      </defs>
+    </svg>
+  ),
 };

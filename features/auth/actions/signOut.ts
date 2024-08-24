@@ -6,7 +6,8 @@ import { handleError } from '@/lib/utils';
 
 export async function signOut() {
   try {
-    cookies().delete('hashedPassword');
+    cookies().delete('encryptedSeedAndDerivationPaths');
+    cookies().delete('salt');
   } catch (error) {
     handleError(error, 'Error signing out');
   }

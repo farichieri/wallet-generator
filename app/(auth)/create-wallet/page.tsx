@@ -8,7 +8,7 @@ export const revalidate = 0;
 export default async function Home() {
   const session = await getSession();
 
-  if (session?.address) {
+  if (session?.encryptedSeedAndDerivationPaths) {
     redirect('/dashboard');
   }
 
