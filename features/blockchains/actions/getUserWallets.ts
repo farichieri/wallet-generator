@@ -1,26 +1,26 @@
 'use server';
 
+import { auth } from '@/auth';
 import { UserAccounts } from '@/features/accounts';
-import { decryptSeed, getSession } from '@/features/auth';
-import { handleError } from '@/lib/utils';
+import { decryptSeed } from '@/features/auth';
+import { ErrorResult, SuccessResult, handleReturnError } from '@/lib/utils';
 
 import { getEthereumWallet } from './getEthereumWallet';
 
-export async function getUserWallets(): Promise<UserAccounts | undefined> {
+export async function getUserWallets(): Promise<
+  SuccessResult<UserAccounts> | ErrorResult
+> {
   try {
-    const session = await getSession();
-    if (!session) {
-      throw new Error('No session found');
-    }
-    const { encryptedSeedAndDerivationPaths, salt } = session || {};
+    const session = await auth();
+    const { encryptedUserData, salt, password } = session?.user || {};
 
-    if (!encryptedSeedAndDerivationPaths || !salt) {
+    if (!encryptedUserData || !salt || !password) {
       throw new Error('No encrypted seed found');
     }
 
     const res = await decryptSeed({
-      encryptedSeed: encryptedSeedAndDerivationPaths,
-      password: 'test1234', // TODO: get password from user
+      encryptedSeed: encryptedUserData,
+      password: password,
       salt,
     });
 
@@ -37,10 +37,13 @@ export async function getUserWallets(): Promise<UserAccounts | undefined> {
     ) as string[];
 
     return {
-      ethereum: ethereumWallets,
-      solana: [],
+      error: false,
+      data: {
+        ethereum: ethereumWallets,
+        solana: [],
+      },
     };
   } catch (error) {
-    handleError(error, 'Error getting user wallets');
+    return handleReturnError(error, 'Error getting user wallets');
   }
 }

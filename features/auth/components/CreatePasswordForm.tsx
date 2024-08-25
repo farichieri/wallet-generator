@@ -4,13 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { signUp } from '@/features/auth';
-import { handleSubmissionError } from '@/lib/utils';
+import { authenticate, signUp } from '@/features/auth';
+import { getMessageFromCode, handleSubmissionError } from '@/lib/utils';
 
 const createPasswordSchema = z
   .object({
@@ -61,7 +62,21 @@ const CreatePasswordForm: React.FC<Props> = ({
 
   const onSubmit = async (values: z.infer<typeof createPasswordSchema>) => {
     try {
-      await signUp({ password: values.password, mnemonic, derivationPaths });
+      await signUp({
+        password: values.password,
+        mnemonic,
+        derivationPaths,
+      });
+
+      if (!values.password) return;
+      const formData = new FormData();
+      formData.append('password', values.password);
+      const res = await authenticate(formData);
+
+      if (res?.type === 'error') {
+        toast.error(getMessageFromCode(res.resultCode));
+      }
+
       router.refresh();
     } catch (error) {
       handleSubmissionError(error, 'Error creating password');

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { getSession } from '@/features/auth';
+import { auth } from '@/auth';
 
 export const revalidate = 0;
 
@@ -15,11 +15,11 @@ interface Props {
 }
 
 export default async function AuthLayout({ children }: Props) {
-  const session = await getSession();
+  const session = await auth();
 
   console.log({ session });
 
-  if (session?.encryptedSeedAndDerivationPaths) {
+  if (session) {
     redirect('/dashboard');
   }
 

@@ -1,5 +1,3 @@
-'use server';
-
 import crypto from 'crypto';
 
 import { encode as base64Encode } from 'base-64';
@@ -8,14 +6,12 @@ interface Props {
   seed: string;
   password: string;
   derivationPaths: string[];
-  salt: string;
 }
 
-export async function encryptSeed({
+export async function encryptUserData({
   seed,
   password,
   derivationPaths,
-  salt,
 }: Props): Promise<{
   encryptedSeed: string;
   salt: string;
@@ -27,6 +23,7 @@ export async function encryptSeed({
   const derivationPathsStr = JSON.stringify(derivationPaths);
   console.log({ derivationPathsStr });
 
+  const salt = crypto.randomBytes(16).toString('hex');
   const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha512');
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);

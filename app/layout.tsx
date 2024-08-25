@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Lato as FontSans } from 'next/font/google';
 
+import { auth } from '@/auth';
 import Footer from '@/components/Footer';
 import Provider from '@/lib/Provider';
 import { cn } from '@/lib/utils';
@@ -22,7 +23,8 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: Props) {
+export default async function RootLayout({ children }: Props) {
+  const session = await auth();
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head />
@@ -32,7 +34,7 @@ export default function RootLayout({ children }: Props) {
           fontSans.variable,
         )}
       >
-        <Provider>
+        <Provider session={session}>
           <main className="flex min-h-screen flex-col items-center justify-between px-4 py-24">
             {children}
           </main>

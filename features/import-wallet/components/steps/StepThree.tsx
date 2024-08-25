@@ -21,6 +21,8 @@ const StepThree: React.FC<Props> = ({
   handleSelectDerivationPath,
   derivationPaths,
 }) => {
+  const readyToImport = derivationPaths.length > 0;
+
   return (
     <div className="w-full text-center">
       {networkSelected === 'Ethereum' ? (
@@ -68,7 +70,12 @@ const StepThree: React.FC<Props> = ({
       )}
 
       <div className="mt-8 flex justify-center">
-        <Button onClick={onNext} className="" size="lg">
+        <Button
+          onClick={onNext}
+          className=""
+          size="lg"
+          disabled={!readyToImport}
+        >
           Import Wallet{derivationPaths.length > 1 ? 's' : ''}
         </Button>
       </div>

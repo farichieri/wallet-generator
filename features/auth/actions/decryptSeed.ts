@@ -8,12 +8,6 @@ interface DecryptionProps {
   password: string;
 }
 
-interface DecryptionProps {
-  encryptedSeed: string;
-  salt: string;
-  password: string;
-}
-
 export async function decryptSeed({
   encryptedSeed,
   salt,
@@ -22,38 +16,43 @@ export async function decryptSeed({
   seedStr: string;
   derivationPaths: string[];
 }> {
-  // Step 2: Base64 decode the string
-  const base64Decoded = Buffer.from(
-    decodeURIComponent(encryptedSeed),
-    'base64',
-  ).toString('utf-8');
+  try {
+    // Decode the base64 encoded string
+    const base64Decoded = Buffer.from(
+      decodeURIComponent(encryptedSeed),
+      'base64',
+    ).toString('utf-8');
 
-  // The IV and encrypted data are separated by ':'
-  const [ivHex, encryptedDataHex] = base64Decoded.split(':');
+    // Split the decoded string into IV and encrypted data using ':' as the separator
+    const [ivHex, encryptedDataHex] = base64Decoded.split(':');
 
-  // Step 3: Convert the IV and encrypted data from hex to binary format
-  const iv = Buffer.from(ivHex, 'hex');
-  const encryptedData = Buffer.from(encryptedDataHex, 'hex');
+    // Convert the IV and encrypted data from hex to binary format
+    const iv = Buffer.from(ivHex, 'hex');
+    const encryptedData = Buffer.from(encryptedDataHex, 'hex');
 
-  // Step 4: Use the same salt and password to generate the decryption key
-  const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha512');
+    // Generate the decryption key using the same salt, password, and parameters
+    const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha512');
 
-  // Step 5: Initialize the decryption cipher with the key and IV
-  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    // Initialize the decryption cipher with the generated key and IV
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
 
-  // Step 6: Decrypt the data
-  let decrypted = decipher.update(encryptedData);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
+    // Decrypt the data
+    let decrypted = decipher.update(encryptedData);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-  // Convert decrypted data to string
-  const decryptedStr = decrypted.toString('utf-8');
+    // Convert the decrypted binary data to a UTF-8 encoded string
+    const decryptedStr = decrypted.toString('utf-8');
 
-  // Step 7: Split the combined string to separate the seed and derivation paths
-  const [seedStr, derivationPathsStr] = decryptedStr.split('||');
-  const derivationPaths = JSON.parse(derivationPathsStr);
+    // Split the decrypted string into the seed and derivation paths
+    const [seedStr, derivationPathsStr] = decryptedStr.split('||');
+    const derivationPaths = JSON.parse(derivationPathsStr);
 
-  return {
-    seedStr,
-    derivationPaths,
-  };
+    return {
+      seedStr,
+      derivationPaths,
+    };
+  } catch (error) {
+    console.error('Error decrypting seed', error);
+    throw new Error('Error decrypting seed');
+  }
 }

@@ -1,39 +1,44 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
-import { decryptSeed, getSession, updateSession } from '@/features/auth';
+import { decryptSeed, updateSession } from '@/features/auth';
 import { getEthereumWallet } from '@/features/blockchains/actions';
 import { getNewEthereumDerivationPath } from '@/features/import-wallet';
 import { handleSubmissionError } from '@/lib/utils';
 
-interface Props {}
+interface Props {
+  session: Session | null;
+}
 
-const CreateEthereumWallet: React.FC<Props> = () => {
+const CreateEthereumWallet: React.FC<Props> = ({ session }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { update } = useSession();
 
   const handleDecrypt = async () => {
     try {
       setIsLoading(true);
-      const session = await getSession();
-      console.log({ session });
-      const { encryptedSeedAndDerivationPaths, salt } = session || {};
+      const { encryptedUserData, salt, password } = session?.user || {};
 
-      if (!encryptedSeedAndDerivationPaths || !salt) {
+      if (!encryptedUserData || !salt || !password) {
         throw new Error('No encrypted seed found');
       }
 
-      const decrypted = await decryptSeed({
-        encryptedSeed: encryptedSeedAndDerivationPaths,
-        password: 'test1234', // TODO: get password from user
-        salt: salt,
+      const res = await decryptSeed({
+        encryptedSeed: encryptedUserData,
+        password: password,
+        salt,
       });
-      console.log({ decrypted });
 
-      const { seedStr, derivationPaths } = decrypted;
+      console.log({ res });
+
+      const { seedStr, derivationPaths } = res;
 
       const newDerivationPath = getNewEthereumDerivationPath(derivationPaths);
 
@@ -41,10 +46,17 @@ const CreateEthereumWallet: React.FC<Props> = () => {
 
       console.log({ seedStr, newDerivationPaths });
 
-      await updateSession({
+      const updatedRes = await updateSession({
         seed: seedStr,
-        password: 'test1234', // TODO: get password from user
+        password: password,
         derivationPaths: newDerivationPaths,
+        salt,
+      });
+
+      await update({
+        user: {
+          encryptedUserData: updatedRes?.encryptedSeed,
+        },
       });
 
       const wallets = await Promise.all(
@@ -55,7 +67,7 @@ const CreateEthereumWallet: React.FC<Props> = () => {
 
       console.log({ wallets });
 
-      // await createEthereumWallet();
+      toast.success('Ethereum wallet created successfully');
       router.refresh();
     } catch (error) {
       handleSubmissionError(error, 'Error creating Ethereum wallet');

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { handleSubmissionError } from '@/lib/utils';
 
-import { signOut } from '../actions';
+import { unAuthenticate } from '../actions';
 
 interface Props {}
 
@@ -17,7 +17,7 @@ const SignOutButton: React.FC<Props> = () => {
   const handleSignOut = async () => {
     try {
       setIsLoading(true);
-      await signOut();
+      await unAuthenticate();
       router.refresh();
     } catch (error) {
       handleSubmissionError(error, 'Error signing out');

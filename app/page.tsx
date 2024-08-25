@@ -1,17 +1,21 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
+import { auth } from '@/auth';
 import { Button } from '@/components/ui/button';
-import { getSession } from '@/features/auth';
+import { getUserData } from '@/features/auth';
 
 export const revalidate = 0;
 
 export default async function Home() {
-  const session = await getSession();
+  const session = await auth();
+  const userData = await getUserData();
 
-  if (session?.encryptedSeedAndDerivationPaths) {
+  if (session) {
     redirect('/dashboard');
   }
+
+  const hasData = userData?.encryptedUserData;
 
   return (
     <div className="flex h-auto w-full flex-1 items-center justify-center">
@@ -19,16 +23,27 @@ export default async function Home() {
         <h1 className="mb-2 text-center text-3xl font-bold">
           Welcome to Typen
         </h1>
-        <Link className="flex w-full" href="/create-wallet">
-          <Button className="w-full" size="lg">
-            Create Wallet
-          </Button>
-        </Link>
-        <Link className="flex w-full" href="/import-wallet">
-          <Button className="w-full" variant="outline" size="lg">
-            Import Wallet
-          </Button>
-        </Link>
+
+        {hasData ? (
+          <Link className="flex w-full" href="/login">
+            <Button className="w-full" variant="outline" size="lg">
+              Login
+            </Button>
+          </Link>
+        ) : (
+          <>
+            <Link className="flex w-full" href="/create-wallet">
+              <Button className="w-full" size="lg">
+                Create Wallet
+              </Button>
+            </Link>
+            <Link className="flex w-full" href="/import-wallet">
+              <Button className="w-full" variant="outline" size="lg">
+                Import Wallet
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

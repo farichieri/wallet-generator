@@ -1,3 +1,5 @@
+import { Session } from 'next-auth';
+
 import { Blockchain } from '@/features/blockchains';
 import { CreateEthereumWallet } from '@/features/create-wallet';
 
@@ -6,9 +8,14 @@ import { UserAccounts } from '../types';
 interface Props {
   accounts: UserAccounts;
   blockchain: Blockchain;
+  session: Session | null;
 }
 
-const AccountSelector: React.FC<Props> = ({ accounts, blockchain }) => {
+const AccountSelector: React.FC<Props> = ({
+  accounts,
+  blockchain,
+  session,
+}) => {
   const currentAccounts = accounts[blockchain];
 
   return (
@@ -19,7 +26,7 @@ const AccountSelector: React.FC<Props> = ({ accounts, blockchain }) => {
         ))}
       </div>
       {blockchain === 'ethereum' ? (
-        <CreateEthereumWallet />
+        <CreateEthereumWallet session={session} />
       ) : (
         <div>Create Solana Wallet...</div>
       )}
