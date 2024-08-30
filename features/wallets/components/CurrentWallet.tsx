@@ -2,7 +2,7 @@ import { useAccounts } from '../hooks';
 
 interface Props {}
 
-const CurrentAccount: React.FC<Props> = () => {
+const CurrentWallet: React.FC<Props> = () => {
   const { account } = useAccounts();
 
   return (
@@ -13,4 +13,4 @@ const CurrentAccount: React.FC<Props> = () => {
   );
 };
 
-export default CurrentAccount;
+export default CurrentWallet;

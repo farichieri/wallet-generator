@@ -91,3 +91,8 @@ export const getMessageFromCode = (resultCode: string) => {
       return 'Logged in!';
   }
 };
+
+export function formatHash(hash: string) {
+  if (!hash) return '';
+  return `${hash.slice(0, 4)}...${hash.slice(-6)}`;
+}

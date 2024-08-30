@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: Props) {
         )}
       >
         <Provider session={session}>
-          <main className="flex min-h-screen flex-col items-center justify-between px-4 py-24">
+          <main className="flex min-h-screen flex-col items-center justify-between px-4 py-4">
             {children}
           </main>
           <Footer />

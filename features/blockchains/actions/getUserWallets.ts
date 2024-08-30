@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/auth';
-import { UserAccounts } from '@/features/accounts';
+import { UserAccounts } from '@/features/wallets';
 import { decryptSeed } from '@/features/auth';
 import { ErrorResult, SuccessResult, handleReturnError } from '@/lib/utils';
 

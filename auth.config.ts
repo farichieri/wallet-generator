@@ -20,7 +20,6 @@ export default {
     },
     async jwt({ token, user, trigger, session }) {
       if (trigger === 'update') {
-        console.log({ trigger, token, user, session });
         return {
           ...token,
           ...session.user,
@@ -54,7 +53,6 @@ export default {
           user: { ...user, id, salt, password, encryptedUserData },
         };
       }
-      console.log({ session });
 
       return session;
     },

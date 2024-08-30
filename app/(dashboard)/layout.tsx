@@ -13,10 +13,18 @@ export const metadata: Metadata = {
 
 interface Props {
   children: React.ReactNode;
+  params: { blockchainId: string };
+  searchParams: { wallet: string };
 }
 
-export default async function DashboardLayout({ children }: Props) {
+export default async function DashboardLayout({
+  children,
+  params,
+  searchParams,
+}: Props) {
   const session = await auth();
+
+  console.log({ params, searchParams });
 
   if (!session) {
     redirect('/');
@@ -24,7 +32,7 @@ export default async function DashboardLayout({ children }: Props) {
 
   return (
     <>
-      <Nav />
+      <Nav blockchainId={params.blockchainId} />
       {children}
     </>
   );
