@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { Icons } from '@/components/Icons';
 import {
@@ -13,12 +13,10 @@ import {
 
 import { Blockchain, BlockchainsWithLogos } from '../types';
 
-interface Props {
-  blockchainId?: string;
-}
+interface Props {}
 
-const BlockChainSelector: React.FC<Props> = ({ blockchainId }) => {
-  console.log({ blockchainId });
+const BlockChainSelector: React.FC<Props> = () => {
+  const { blockchainId } = useParams();
   const router = useRouter();
   const blockchains = Object.values(BlockchainsWithLogos);
 
@@ -27,9 +25,16 @@ const BlockChainSelector: React.FC<Props> = ({ blockchainId }) => {
     router.push(`/dashboard/blockchains/${value.toLocaleLowerCase()}`);
   };
 
+  if (!blockchainId) {
+    return null;
+  }
+
   return (
     <div className="">
-      <Select defaultValue={blockchainId} onValueChange={handleSelectChange}>
+      <Select
+        defaultValue={blockchainId as string}
+        onValueChange={handleSelectChange}
+      >
         <SelectTrigger className="">
           <SelectValue placeholder="Blockchain" />
         </SelectTrigger>
@@ -37,10 +42,14 @@ const BlockChainSelector: React.FC<Props> = ({ blockchainId }) => {
           {blockchains.map((blockchain, index) => {
             const Icon = Icons[blockchain.logo];
             return (
-              <SelectItem key={index} value={blockchain.name}>
-                <div className="flex w-full flex-row items-center gap-2">
+              <SelectItem
+                key={index}
+                className="w-full"
+                value={blockchain.name.toLocaleLowerCase()}
+              >
+                <div className="flex w-full flex-row items-center">
                   <Icon className="mr-2 h-5 w-5" />
-                  <span className="">{blockchain.name}</span>
+                  <span className="mr-2 capitalize">{blockchain.name}</span>
                 </div>
               </SelectItem>
             );

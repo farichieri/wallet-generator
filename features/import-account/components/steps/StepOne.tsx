@@ -1,4 +1,4 @@
-import { MnemonicPhraseForm } from '@/features/create-wallet';
+import { MnemonicPhraseForm } from '@/features/create-account';
 
 interface Props {
   onImport: ({ mnemonic }: { mnemonic: string }) => void;

@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 
-import { delay, handleError } from '@/lib/utils';
+import { handleError } from '@/lib/utils';
 
 import { encryptSeed } from './encryptSeed';
 
@@ -19,7 +19,7 @@ export const updateSession = async ({
 }) => {
   try {
     // 2 seconds promise
-    await delay(2000);
+    // await delay(2000);
 
     console.log({ derivationPaths });
 

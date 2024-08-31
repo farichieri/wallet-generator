@@ -1,4 +1,4 @@
-import { ImportWallet } from '@/features/import-wallet';
+import { ImportWallet } from '@/features/import-account';
 
 export const revalidate = 0;
 

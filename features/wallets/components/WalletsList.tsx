@@ -2,74 +2,71 @@
 
 import { useRouter } from 'next/navigation';
 import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
-import { Icons } from '@/components/Icons';
-import { Button } from '@/components/ui/button';
 import { Blockchain } from '@/features/blockchains';
-import { CreateEthereumWallet } from '@/features/create-wallet';
-import { formatHash } from '@/lib/utils';
+import { deleteEthereumWallet } from '@/features/create-account';
+import { handleSubmissionError } from '@/lib/utils';
 
+import CreateNewWallet from './CreateNewWallet';
+import WalletItem from './WalletItem';
 import { UserAccounts } from '../types';
 
 interface Props {
   accounts: UserAccounts;
   blockchain: Blockchain;
   session: Session | null;
-  walletSelected?: string;
 }
 
-const WalletsList: React.FC<Props> = ({
-  accounts,
-  blockchain,
-  session,
-  walletSelected,
-}) => {
-  const wallets = accounts[blockchain];
-
+const WalletsList: React.FC<Props> = ({ accounts, blockchain, session }) => {
+  const { update } = useSession();
   const router = useRouter();
+
+  console.log({ accounts, blockchain });
+
+  const wallets = accounts[blockchain];
+  const [isDeletingIndex, setIsDeletingIndex] = useState<number | null>(null);
 
   const handleSelectWallet = (wallet: string) => {
     router.push(`/dashboard/blockchains/${blockchain}/${wallet}`);
   };
 
-  const handleDelete = (wallet: string) => {
-    console.log(wallet);
+  const handleDelete = async (wallet: string, index: number) => {
+    try {
+      setIsDeletingIndex(index);
+      const res = await deleteEthereumWallet(index);
+      await update({
+        user: {
+          encryptedUserData: res?.encryptedSeed,
+        },
+      });
+    } catch (error) {
+      handleSubmissionError(error, `Error deleting wallet ${wallet}`);
+    } finally {
+      router.refresh();
+      setIsDeletingIndex(null);
+    }
   };
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <div className="flex w-full flex-col gap-2">
-        {wallets.map((wallet) => {
-          const BlockchainIcon = Icons[blockchain];
+      <div className="flex w-full max-w-sm flex-col gap-2">
+        {wallets.map((wallet, index) => {
           return (
-            <Button
-              className="w-full cursor-pointer justify-between rounded-md border p-2"
+            <WalletItem
+              blockchain={blockchain}
+              index={index}
+              isDeleting={isDeletingIndex === index}
               key={wallet}
-              variant="ghost"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelectWallet(wallet);
-              }}
-              title={wallet}
-            >
-              <BlockchainIcon className="h-4 w-4" />
-              {formatHash(wallet)}
-              <Icons.trashGeist
-                className="ml-2 h-4 w-4"
-                onClick={(e: any) => {
-                  e.stopPropagation();
-                  handleDelete(wallet);
-                }}
-              />
-            </Button>
+              onDelete={handleDelete}
+              onSelect={handleSelectWallet}
+              wallet={wallet}
+            />
           );
         })}
       </div>
-      {blockchain === 'ethereum' ? (
-        <CreateEthereumWallet session={session} />
-      ) : (
-        <div>Create Solana Wallet...</div>
-      )}
+      <CreateNewWallet blockchain={blockchain} />
     </div>
   );
 };

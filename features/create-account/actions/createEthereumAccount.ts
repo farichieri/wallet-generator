@@ -5,7 +5,7 @@ import { HDNodeWallet, Wallet } from 'ethers';
 
 import { handleError } from '@/lib/utils';
 
-export async function createEthereumWallet({
+export async function createEthereumAccount({
   mnemonic,
   index,
 }: {

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Blockchain } from '@/features/blockchains';
 import { handleSubmissionError } from '@/lib/utils';
 
-import { createEthereumWallet } from '../actions';
+import { createEthereumAccount } from '../actions';
 
 export const useWalletGenerate = () => {
   const [step, setStep] = useState(1);
@@ -33,7 +33,7 @@ export const useWalletGenerate = () => {
     try {
       switch (blockchain) {
         case 'ethereum':
-          return createEthereumWallet({ mnemonic, index: 0 });
+          return createEthereumAccount({ mnemonic, index: 0 });
         case 'solana':
           // return createSolanaWallet({ mnemonic });
           break;

@@ -1,23 +1,30 @@
 import { auth } from '@/auth';
+import { Blockchain } from '@/features/blockchains';
 import { getUserWallets } from '@/features/blockchains/actions';
 import { WalletsList } from '@/features/wallets';
 
 export const revalidate = 0;
 
-export default async function Home() {
+interface Props {
+  params: { blockchainId: Blockchain };
+}
+
+export default async function Page({ params }: Props) {
   const wallets = await getUserWallets();
   const session = await auth();
+
+  const { blockchainId } = params;
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-4 py-24">
       {wallets.error ? (
         <div>Error fetching wallets: {wallets.error}</div>
       ) : wallets.data ? (
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex w-full flex-col items-center gap-2">
           <p>Wallets:</p>
           <WalletsList
             accounts={wallets.data}
-            blockchain="ethereum"
+            blockchain={blockchainId}
             session={session}
           />
         </div>

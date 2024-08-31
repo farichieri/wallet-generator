@@ -54,6 +54,7 @@ export default {
         };
       }
 
+      // console.log({ session });
       return session;
     },
   },

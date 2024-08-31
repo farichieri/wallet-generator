@@ -7,11 +7,11 @@ export type Blockchain = (typeof Blockchains)[keyof typeof Blockchains];
 
 export const BlockchainsWithLogos = {
   [Blockchains.ethereum]: {
-    name: 'Ethereum',
+    name: 'ethereum',
     logo: 'ethereum',
   },
   [Blockchains.solana]: {
-    name: 'Solana',
+    name: 'solana',
     logo: 'solana',
   },
 } as const;

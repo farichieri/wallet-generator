@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Icons } from '@/components/Icons';
 import Steps from '@/components/Steps';
 import { CreatePasswordForm } from '@/features/auth';
-import WalletConfirmation from '@/features/create-wallet/components/WalletConfirmation';
+import WalletConfirmation from '@/features/create-account/components/WalletConfirmation';
 
 import { StepOne, StepThree, StepTwo } from './steps';
 import { useImportWallet } from '../hooks';

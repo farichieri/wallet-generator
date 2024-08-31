@@ -1,4 +1,4 @@
-import { WalletGenerator } from '@/features/create-wallet';
+import { WalletGenerator } from '@/features/create-account';
 
 export const revalidate = 0;
 

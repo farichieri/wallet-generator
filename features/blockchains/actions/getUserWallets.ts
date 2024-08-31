@@ -1,8 +1,8 @@
 'use server';
 
 import { auth } from '@/auth';
-import { UserAccounts } from '@/features/wallets';
 import { decryptSeed } from '@/features/auth';
+import { UserAccounts } from '@/features/wallets';
 import { ErrorResult, SuccessResult, handleReturnError } from '@/lib/utils';
 
 import { getEthereumWallet } from './getEthereumWallet';
