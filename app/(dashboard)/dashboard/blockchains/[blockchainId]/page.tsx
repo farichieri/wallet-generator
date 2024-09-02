@@ -16,12 +16,12 @@ export default async function Page({ params }: Props) {
   const { blockchainId } = params;
 
   return (
-    <section className="flex w-full flex-col items-center justify-center gap-4 py-24">
+    <section className="flex w-full flex-col items-center justify-center gap-4 pt-10">
       {wallets.error ? (
         <div>Error fetching wallets: {wallets.error}</div>
       ) : wallets.data ? (
         <div className="flex w-full flex-col items-center gap-2">
-          <p>Wallets:</p>
+          <h1 className="heading text-2xl">Wallets:</h1>
           <WalletsList
             accounts={wallets.data}
             blockchain={blockchainId}

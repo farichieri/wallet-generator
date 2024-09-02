@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
+import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
 
 export const revalidate = 0;
@@ -25,7 +26,10 @@ export default async function DashboardLayout({ children }: Props) {
   return (
     <>
       <Nav />
-      {children}
+      <main className="flex min-h-screen flex-col items-center justify-between px-4 pt-[calc(var(--nav-height)+1rem)]">
+        {children}
+      </main>
+      <Footer />
     </>
   );
 }

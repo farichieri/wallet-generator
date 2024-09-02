@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Blockchain } from '@/features/blockchains';
-import { createEthereumWallet } from '@/features/create-account';
+import { createNewWallet } from '@/features/create-account';
 import { handleSubmissionError } from '@/lib/utils';
 
 interface Props {
@@ -23,11 +23,7 @@ const CreateNewWallet: React.FC<Props> = ({ blockchain }) => {
     try {
       setIsLoading(true);
 
-      let res;
-
-      if (blockchain === 'ethereum') {
-        res = await createEthereumWallet();
-      }
+      const res = await createNewWallet({ blockchain });
 
       if (!res) {
         throw new Error(`Error creating ${blockchain} wallet`);
@@ -55,7 +51,7 @@ const CreateNewWallet: React.FC<Props> = ({ blockchain }) => {
         isLoading={isLoading}
         loadingMessage={`Creating ${blockchain} wallet...`}
       >
-        + Add new <span>{blockchain}</span> Wallet
+        {`+ Add new ${blockchain} Wallet`}
       </Button>
     </div>
   );

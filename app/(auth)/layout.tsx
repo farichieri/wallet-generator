@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
+import Footer from '@/components/Footer';
 
 export const revalidate = 0;
 
@@ -23,5 +24,12 @@ export default async function AuthLayout({ children }: Props) {
     redirect('/dashboard');
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        {children}
+      </main>
+      <Footer />
+    </>
+  );
 }

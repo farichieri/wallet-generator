@@ -28,10 +28,6 @@ const WalletsList: React.FC<Props> = ({ accounts, blockchain, session }) => {
   const wallets = accounts[blockchain];
   const [isDeletingIndex, setIsDeletingIndex] = useState<number | null>(null);
 
-  const handleSelectWallet = (wallet: string) => {
-    router.push(`/dashboard/blockchains/${blockchain}/${wallet}`);
-  };
-
   const handleDelete = async (wallet: string, index: number) => {
     try {
       setIsDeletingIndex(index);
@@ -60,7 +56,6 @@ const WalletsList: React.FC<Props> = ({ accounts, blockchain, session }) => {
               isDeleting={isDeletingIndex === index}
               key={wallet}
               onDelete={handleDelete}
-              onSelect={handleSelectWallet}
               wallet={wallet}
             />
           );

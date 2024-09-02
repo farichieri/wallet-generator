@@ -1,17 +1,24 @@
-import Link from 'next/link';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 import { Icons } from './Icons';
 import { Button } from './ui/button';
 
 const Back = () => {
+  const router = useRouter();
   return (
     <div>
-      <Link href="/">
-        <Button variant="link">
-          <Icons.chevronLeft className="h-4" />
-          Back
-        </Button>
-      </Link>
+      <Button
+        variant="link"
+        onClick={(e) => {
+          e.preventDefault();
+          router.back();
+        }}
+      >
+        <Icons.chevronLeft className="h-4" />
+        Back
+      </Button>
     </div>
   );
 };

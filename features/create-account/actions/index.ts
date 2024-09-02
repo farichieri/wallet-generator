@@ -1,3 +1,3 @@
 export * from './createEthereumAccount';
-export * from './createEthereumWallet';
+export * from './createNewWallet';
 export * from './deleteEthereumWallet';

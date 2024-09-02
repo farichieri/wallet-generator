@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { Icons } from '@/components/Icons';
 import {
@@ -16,14 +17,19 @@ import { Blockchain, BlockchainsWithLogos } from '../types';
 interface Props {}
 
 const BlockChainSelector: React.FC<Props> = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { blockchainId } = useParams();
   const router = useRouter();
+
   const blockchains = Object.values(BlockchainsWithLogos);
 
   const handleSelectChange = (value: Blockchain) => {
-    console.log(value);
     router.push(`/dashboard/blockchains/${value.toLocaleLowerCase()}`);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   if (!blockchainId) {
     return null;
@@ -35,8 +41,9 @@ const BlockChainSelector: React.FC<Props> = () => {
         defaultValue={blockchainId as string}
         onValueChange={handleSelectChange}
       >
-        <SelectTrigger className="">
+        <SelectTrigger className="min-w-28">
           <SelectValue placeholder="Blockchain" />
+          {isLoading && <Icons.loaderCircle2 className="animate-spin" />}
         </SelectTrigger>
         <SelectContent>
           {blockchains.map((blockchain, index) => {
@@ -63,13 +70,6 @@ const BlockChainSelector: React.FC<Props> = () => {
 export default BlockChainSelector;
 
 /*
-TODO:
-1. Be able to select blockchain/network
-  - Dynamic routing?
-2. Be able to select account/wallet (Wallet per se will be added later...)
-  - Dynamic routing?
-3. Be able to add / delete account/wallet
-
 4. Be able to see the balance of the account/wallet
 5. Be able to see the transactions of the account/wallet
 6. Be able to send transactions from the account/wallet

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Lato as FontSans } from 'next/font/google';
 
 import { auth } from '@/auth';
-import Footer from '@/components/Footer';
 import Provider from '@/lib/Provider';
 import { cn } from '@/lib/utils';
 
@@ -34,12 +33,7 @@ export default async function RootLayout({ children }: Props) {
           fontSans.variable,
         )}
       >
-        <Provider session={session}>
-          <main className="flex min-h-screen flex-col items-center justify-between px-4 py-4">
-            {children}
-          </main>
-          <Footer />
-        </Provider>
+        <Provider session={session}>{children}</Provider>
       </body>
     </html>
   );

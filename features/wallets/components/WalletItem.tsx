@@ -9,27 +9,26 @@ import { Blockchain } from '@/features/blockchains';
 import { formatHash } from '@/lib/utils';
 
 interface WalletItemProps {
-  wallet: string;
-  index: number;
-  onSelect?: (wallet: string) => void;
-  onDelete?: (wallet: string, index: number) => void;
   blockchain: Blockchain;
+  index: number;
   isDeleting?: boolean;
+  isWalletRoute?: boolean;
+  onDelete?: (wallet: string, index: number) => void;
+  wallet: string;
 }
 
 const WalletItem: React.FC<WalletItemProps> = ({
-  wallet,
-  index,
-  onSelect,
-  onDelete,
   blockchain,
+  index,
   isDeleting,
+  onDelete,
+  wallet,
 }) => {
   const BlockchainIcon = Icons[blockchain];
   return (
     <Link
-      href={`/dashboard/blockchains/${blockchain}/${wallet}`}
       className="flex h-auto w-full cursor-pointer items-center justify-between rounded-xl border p-4 duration-100 hover:bg-muted active:bg-muted/50"
+      href={`/dashboard/blockchains/${blockchain}/${wallet}`}
       key={wallet}
       title={wallet}
     >
@@ -41,14 +40,14 @@ const WalletItem: React.FC<WalletItemProps> = ({
       {onDelete && (
         <Button
           className="rounded-md"
-          variant="ghost"
+          disabled={isDeleting}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
             onDelete(wallet, index);
           }}
-          disabled={isDeleting}
           isLoading={isDeleting}
+          variant="link"
         >
           <Icons.trashGeist className="h-4 w-4" />
         </Button>

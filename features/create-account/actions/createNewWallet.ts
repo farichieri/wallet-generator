@@ -2,10 +2,18 @@
 
 import { auth } from '@/auth';
 import { decryptSeed, updateSession } from '@/features/auth';
-import { getNewEthereumDerivationPath } from '@/features/import-account';
+import { Blockchain } from '@/features/blockchains';
+import {
+  getNewEthereumDerivationPath,
+  getNewSolanaDerivationPath,
+} from '@/features/import-account';
 import { handleError } from '@/lib/utils';
 
-export async function createEthereumWallet() {
+interface Props {
+  blockchain: Blockchain;
+}
+
+export async function createNewWallet({ blockchain }: Props) {
   try {
     const session = await auth();
     const { encryptedUserData, salt, password } = session?.user || {};
@@ -25,9 +33,17 @@ export async function createEthereumWallet() {
 
     const { seedStr, derivationPaths } = res;
 
-    const newDerivationPath = getNewEthereumDerivationPath(derivationPaths);
+    let newDerivationPath = '';
+    if (blockchain === 'ethereum') {
+      newDerivationPath = getNewEthereumDerivationPath(derivationPaths);
+    } else if (blockchain === 'solana') {
+      newDerivationPath = getNewSolanaDerivationPath(derivationPaths);
+    }
+
+    console.log({ newDerivationPath });
 
     const newDerivationPaths = [...derivationPaths, newDerivationPath];
+    console.log({ newDerivationPaths });
 
     const updatedRes = await updateSession({
       seed: seedStr,

@@ -37,7 +37,7 @@
 
     --radius: 0.5rem;
 
-    --nav-height: 5rem;
+    --nav-height: 3.5rem;
   }
 
   .dark {
@@ -68,6 +68,8 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+
+    --nav-height: 3.5rem;
   }
 }
 
