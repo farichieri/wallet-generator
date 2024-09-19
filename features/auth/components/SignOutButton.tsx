@@ -27,7 +27,7 @@ const SignOutButton: React.FC<Props> = () => {
 
   return (
     <Button isLoading={isLoading} onClick={handleSignOut}>
-      SignOut
+      Sign Out
     </Button>
   );
 };

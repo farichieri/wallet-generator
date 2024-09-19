@@ -44,6 +44,7 @@ const WalletItem: React.FC<WalletItemProps> = ({
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
+            console.log({ wallet, index });
             onDelete(wallet, index);
           }}
           isLoading={isDeleting}

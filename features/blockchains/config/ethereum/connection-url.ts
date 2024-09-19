@@ -1,7 +1,7 @@
 export const EthereumConnectionUrl = {
-  MAINNET: `https://swr.xnftdata.com/ethereum-rpc-proxy`,
+  MAINNET: `https://eth-mainnet.g.alchemy.com/v2/9JX1rQJZL-sABV7VimnipiTcV3R2jQZJ`,
   SEPOLIA:
-    'https://eth-sepolia.g.alchemy.com/v2/6QnM1O0pB17Qo47Cw9qMipDGWX7xAVWc',
+    'https://eth-sepolia.g.alchemy.com/v2/9JX1rQJZL-sABV7VimnipiTcV3R2jQZJ',
   DEFAULT:
     process.env.DEFAULT_ETHEREUM_CONNECTION_URL ||
     'https://swr.xnftdata.com/ethereum-rpc-proxy',

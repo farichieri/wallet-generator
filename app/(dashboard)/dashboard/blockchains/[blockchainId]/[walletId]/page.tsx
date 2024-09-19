@@ -1,7 +1,7 @@
 import Back from '@/components/Back';
 import { Icons } from '@/components/Icons';
 import { Blockchain } from '@/features/blockchains';
-import { Wallet } from '@/features/wallets';
+import { Wallet, getBalance } from '@/features/wallets';
 import { formatHash } from '@/lib/utils';
 
 export const revalidate = 0;
@@ -15,6 +15,11 @@ export default async function Page({ params }: Props) {
 
   const BlockchainIcon = Icons[blockchainId];
 
+  const balance = await getBalance({
+    blockchain: blockchainId,
+    walletAddress: walletId,
+  });
+
   return (
     <section className="flex w-full max-w-4xl flex-col items-center justify-center gap-4">
       <div className="w-full">
@@ -26,7 +31,7 @@ export default async function Page({ params }: Props) {
           <span className="text-muted-foreground">{formatHash(walletId)}</span>
         </div>
       </div>
-      <Wallet />
+      <Wallet walletId={walletId} balance={balance} />
     </section>
   );
 }

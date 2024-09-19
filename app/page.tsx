@@ -27,7 +27,7 @@ export default async function Home() {
 
           {hasData ? (
             <Link className="flex w-full" href="/login">
-              <Button className="w-full" variant="outline" size="lg">
+              <Button className="w-full" variant="default" size="lg">
                 Login
               </Button>
             </Link>

@@ -27,6 +27,8 @@ export async function deleteEthereumWallet(index: number) {
 
     const newDerivationPaths = derivationPaths.filter((_, i) => i !== index);
 
+    console.log({ newDerivationPaths });
+
     const updatedRes = await updateSession({
       seed: seedStr,
       password: password,

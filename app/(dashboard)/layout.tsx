@@ -26,7 +26,7 @@ export default async function DashboardLayout({ children }: Props) {
   return (
     <>
       <Nav />
-      <main className="flex min-h-screen flex-col items-center justify-between px-4 pt-[calc(var(--nav-height)+1rem)]">
+      <main className="flex min-h-screen flex-col items-center justify-between px-4 pb-24 pt-[calc(var(--nav-height)+1rem)]">
         {children}
       </main>
       <Footer />
