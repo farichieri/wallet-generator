@@ -61,10 +61,10 @@ export const solanaBlockchainConfig = {
       name: 'Mainnet (Beta)',
       url: SolanaCluster.MAINNET,
     },
-    // DEVNET: {
-    //   name: "Devnet",
-    //   url: SolanaCluster.DEVNET,
-    // },
+    DEVNET: {
+      name: 'Devnet',
+      url: SolanaCluster.DEVNET,
+    },
   },
   ConfirmationCommitments: {
     Processed: {
@@ -78,20 +78,11 @@ export const solanaBlockchainConfig = {
     },
   },
   Explorers: {
-    'Solana Beach': {
-      url: SolanaExplorer.SOLANA_BEACH,
-    },
     'Solana Explorer': {
       url: SolanaExplorer.SOLANA_EXPLORER,
     },
-    'Solana FM': {
-      url: SolanaExplorer.SOLANA_FM,
-    },
     Solscan: {
       url: SolanaExplorer.SOLSCAN,
-    },
-    XRAY: {
-      url: SolanaExplorer.XRAY,
     },
   },
 };

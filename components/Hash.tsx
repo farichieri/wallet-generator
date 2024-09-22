@@ -26,7 +26,7 @@ export const HashLink = ({
   const toCopy = copy === 'link' ? link : hash;
 
   return (
-    <div className="flex w-full max-w-[150px] items-center gap-2">
+    <div className="flex w-full max-w-[150px] items-center gap-2" title={hash}>
       <Link
         className="flex w-full items-center gap-2"
         title={hash}
@@ -70,6 +70,7 @@ export const HashString = ({
       className={cn('flex w-full max-w-[150px] items-center gap-2', {
         'max-w-full': showFullString,
       })}
+      title={hash}
     >
       <span className="flex w-full items-center gap-1 font-light">
         <span

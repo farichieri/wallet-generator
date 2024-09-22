@@ -9,10 +9,7 @@ interface Props {
 export async function fetchSolanaWallet({ walletAddress }: Props) {
   try {
     // Create a new connection to the Solana blockchain
-    const connection = new Connection(
-      clusterApiUrl('mainnet-beta'),
-      'confirmed',
-    );
+    const connection = new Connection(clusterApiUrl('testnet'), 'confirmed');
 
     // Convert the wallet address to a PublicKey
     const publicKey = new PublicKey(walletAddress);
