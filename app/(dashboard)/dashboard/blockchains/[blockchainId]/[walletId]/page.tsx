@@ -1,8 +1,8 @@
 import Back from '@/components/Back';
+import { HashString } from '@/components/Hash';
 import { Icons } from '@/components/Icons';
 import { Blockchain } from '@/features/blockchains';
 import { Wallet, getBalance } from '@/features/wallets';
-import { formatHash } from '@/lib/utils';
 
 export const revalidate = 0;
 
@@ -28,7 +28,7 @@ export default async function Page({ params }: Props) {
       <div className="mx-auto flex w-fit">
         <BlockchainIcon className="h-10 w-10 rounded-xl border p-2" />
         <div className="ml-4 mr-auto flex flex-col items-start justify-center">
-          <span className="text-muted-foreground">{formatHash(walletId)}</span>
+          <HashString hash={walletId} withCopy />
         </div>
       </div>
       <Wallet walletId={walletId} balance={balance} />

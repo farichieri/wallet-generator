@@ -96,3 +96,14 @@ export function formatHash(hash: string) {
   if (!hash) return '';
   return `${hash.slice(0, 4)}...${hash.slice(-6)}`;
 }
+
+export const copyCode = async (link: string, message: string) => {
+  try {
+    await navigator.clipboard.writeText(link);
+    toast.success(message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+};
