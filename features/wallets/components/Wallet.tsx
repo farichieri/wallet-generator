@@ -4,13 +4,17 @@ import { useState } from 'react';
 
 import { CustomModal } from '@/components/CustomModal';
 import { Button } from '@/components/ui/button';
+import { Blockchain } from '@/features/blockchains';
+
+import SendForm from './SendForm';
 
 interface Props {
   walletId: string;
   balance: string | null;
+  blockchain: Blockchain;
 }
 
-const Wallet: React.FC<Props> = ({ walletId, balance }) => {
+const Wallet: React.FC<Props> = ({ walletId, balance, blockchain }) => {
   const [isSendOpen, setIsSendOpen] = useState(false);
 
   return (
@@ -28,7 +32,7 @@ const Wallet: React.FC<Props> = ({ walletId, balance }) => {
           onClose={() => setIsSendOpen(false)}
           showCloseButton={false}
         >
-          Send Modal
+          <SendForm blockchain={blockchain} />
         </CustomModal>
       )}
     </div>

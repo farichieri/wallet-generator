@@ -31,7 +31,7 @@ export default async function Page({ params }: Props) {
           <HashString hash={walletId} withCopy />
         </div>
       </div>
-      <Wallet walletId={walletId} balance={balance} />
+      <Wallet walletId={walletId} balance={balance} blockchain={blockchainId} />
     </section>
   );
 }
