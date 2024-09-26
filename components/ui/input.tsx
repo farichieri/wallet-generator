@@ -23,7 +23,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div>
+      <div className="">
         <div className="relative">
           <input
             type={

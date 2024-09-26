@@ -1,6 +1,5 @@
 import { auth } from '@/auth';
-import { Blockchain } from '@/features/blockchains';
-import { getUserWallets } from '@/features/blockchains/actions';
+import { Blockchain, getUserWallets } from '@/features/blockchains';
 import { WalletsList } from '@/features/wallets';
 
 export const revalidate = 0;

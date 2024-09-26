@@ -51,21 +51,23 @@ const StepThree: React.FC<Props> = ({
       ) : (
         <div>
           <p>Select one or more wallets to import</p>
-          <div>
-            {Array(19)
-              .fill(null)
-              .map((_, index) => (
-                <DerivationPathRow
-                  key={index}
-                  index={index}
-                  derivationPath={getSolanaDerivationPath(index)}
-                  checked={derivationPaths.includes(
-                    getSolanaDerivationPath(index),
-                  )}
-                  handleSelectDerivationPath={handleSelectDerivationPath}
-                />
-              ))}
-          </div>
+          <ScrollArea className="h-72 w-full rounded-md border">
+            <div className="flex flex-col gap-2 p-3">
+              {Array(19)
+                .fill(null)
+                .map((_, index) => (
+                  <DerivationPathRow
+                    key={index}
+                    index={index}
+                    derivationPath={getSolanaDerivationPath(index)}
+                    checked={derivationPaths.includes(
+                      getSolanaDerivationPath(index),
+                    )}
+                    handleSelectDerivationPath={handleSelectDerivationPath}
+                  />
+                ))}
+            </div>
+          </ScrollArea>
         </div>
       )}
 
