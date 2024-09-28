@@ -103,14 +103,16 @@ const DerivationPathRow: React.FC<{
         },
       )}
     >
-      <Input
-        id={checkboxId}
-        className=""
-        type="checkbox"
-        value={derivationPath}
-        checked={checked}
-        onChange={handleSelectDerivationPath}
-      />
+      <div>
+        <Input
+          id={checkboxId}
+          className="w-fit"
+          type="checkbox"
+          value={derivationPath}
+          checked={checked}
+          onChange={handleSelectDerivationPath}
+        />
+      </div>
       <p>
         Wallet {index + 1} - Path: {derivationPath}
       </p>

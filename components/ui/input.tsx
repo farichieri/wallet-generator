@@ -23,48 +23,48 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="">
-        <div className="relative">
-          <input
-            type={
-              type === 'password'
-                ? isPasswordVisible
-                  ? 'text'
-                  : 'password'
-                : type
-            }
-            className={cn(
-              'flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-              className,
-            )}
-            ref={ref}
-            {...props}
-          />
-          {type === 'password' && (
-            <>
-              <Button
-                className="absolute right-1 top-1/2 h-8 w-8 translate-y-[-50%] cursor-pointer"
-                onClick={handleShowPassword}
-                size="icon"
-                tabIndex={-1}
-                type="button"
-                variant="ghost"
-              >
-                {isPasswordVisible ? (
-                  <Icons.eye className="h-3" />
-                ) : (
-                  <Icons.eyeOff className="h-3" />
-                )}
-              </Button>
-            </>
+      <div className="relative w-full">
+        <input
+          type={
+            type === 'password'
+              ? isPasswordVisible
+                ? 'text'
+                : 'password'
+              : type
+          }
+          className={cn(
+            'flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+            className,
           )}
-        </div>
+          ref={ref}
+          {...props}
+        />
+        {type === 'password' && (
+          <>
+            <Button
+              className="absolute right-1 top-1/2 h-8 w-8 translate-y-[-50%] cursor-pointer"
+              onClick={handleShowPassword}
+              size="icon"
+              tabIndex={-1}
+              type="button"
+              variant="ghost"
+            >
+              {isPasswordVisible ? (
+                <Icons.eye className="h-3" />
+              ) : (
+                <Icons.eyeOff className="h-3" />
+              )}
+            </Button>
+          </>
+        )}
         {errors && props.name && (
           <ErrorMessage
             errors={errors}
             name={props.name}
             render={({ message }) => (
-              <span className="text-sm text-destructive">{message}</span>
+              <span className="w-full text-left text-sm text-destructive">
+                {message}
+              </span>
             )}
           />
         )}

@@ -55,14 +55,12 @@ const SendForm: React.FC<Props> = ({ blockchain }) => {
       <div>Send {blockchain}</div>
       <span className="text-5xl font-bold">SendForm</span>
       <Input
-        className="w-full"
         placeholder="Amount"
         type="number"
         errors={errors}
         {...register('amount')}
       />
       <Input
-        className="w-full"
         placeholder="Recipient"
         type="text"
         errors={errors}
